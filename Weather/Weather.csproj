@@ -101,6 +101,7 @@
     </Compile>
     <Compile Include="Models\WeatherModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\WeatherServices.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
