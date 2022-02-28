@@ -26,21 +26,15 @@ namespace Weather.Controllers
 
 
         // POST: api/LogIn
-        //public string LogIn(string username, string password)
-        //{
-        //    var user = userServices.GetUser(username, password);
-        //    string token = authenticateService.GenerateToken(user.UserId, user.Username);
-
-        //    return token;
-        //}
-
-        public IHttpActionResult Authenticate([FromBody] string username, string password)
+        public string LogIn(string username, string password)
         {
             var user = userServices.GetUser(username, password);
             string token = authenticateService.GenerateToken(user.UserId, user.Username);
 
-            return Ok(token);
+            return token;
         }
+
+     
 
 
 
