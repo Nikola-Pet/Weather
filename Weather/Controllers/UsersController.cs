@@ -10,6 +10,7 @@ using Weather.Models;
 using LinqToDB.Data;
 using Weather.Services;
 using System.Web;
+using System.Net.Http.Headers;
 
 namespace Weather.Controllers
 {
@@ -26,17 +27,21 @@ namespace Weather.Controllers
 
 
         // POST: api/LogIn
-        public string LogIn(string username, string password)
+        public IHttpActionResult LogIn(string username, string password)
         {
             var user = userServices.GetUser(username, password);
             string token = authenticateService.GenerateToken(user.UserId, user.Username);
 
             HttpContext httpContext = HttpContext.Current;
-            httpContext.Response.AddHeader("Authorization", token);
+           
+
+            httpContext.Response.Headers.Add("Authorization", token);
+
+            
 
            
 
-            return token;
+            return Ok<string>(token);
         }
 
      

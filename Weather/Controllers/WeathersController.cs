@@ -11,6 +11,7 @@ using Weather.Services;
 
 namespace Weather.Controllers
 {
+    [Authorize]
     public class WeathersController : ApiController
     {
 
@@ -20,7 +21,7 @@ namespace Weather.Controllers
         {
             this.weatherServices = new WeatherServices();   
         }
-
+        
         public async Task<WeatherModel> GetWeather(string city)
         {
             return await this.weatherServices.GetWeather(city);

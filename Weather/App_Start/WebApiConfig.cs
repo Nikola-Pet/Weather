@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Http;
+using Weather.JWT;
 
 namespace Weather
 {
@@ -15,6 +16,7 @@ namespace Weather
 
             // Web API routes
             config.MapHttpAttributeRoutes();
+            config.MessageHandlers.Add(new ValidateTokenHandelr());
 
             config.Routes.MapHttpRoute(
                 name: "DefaultApi",
