@@ -31,6 +31,11 @@ namespace Weather.Controllers
             var user = userServices.GetUser(username, password);
             string token = authenticateService.GenerateToken(user.UserId, user.Username);
 
+            HttpContext httpContext = HttpContext.Current;
+            httpContext.Response.AddHeader("Authorization", token);
+
+           
+
             return token;
         }
 
