@@ -24,7 +24,7 @@ namespace Weather.JWT
                 return false;
             }
             var bearerToken = authzHeaders.ElementAt(0);
-            token = bearerToken.ToString();
+            token = token = bearerToken.StartsWith("Bearer ") ? bearerToken.Substring(7) : bearerToken;
             return true;
         }
 

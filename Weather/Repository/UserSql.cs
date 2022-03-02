@@ -6,9 +6,9 @@ using System.Linq;
 using System.Web;
 using Weather.Models;
 
-namespace Weather.Services
+namespace Weather.Repository
 {
-    public class UserSevices
+    public class UserSql : IUserSql
     {
         public UserModel GetUser(string username, string password)
         {
@@ -17,7 +17,7 @@ namespace Weather.Services
                 using (SqlCommand cmd = new SqlCommand(
                     "SELECT *" +
                     "FROM dbo.[User]" +
-                    "WHERE Username ='" + username + "' and Password ='" + password +"'", con))
+                    "WHERE Username ='" + username + "' and Password ='" + password + "'", con))
                 {
                     con.Open();
                     SqlDataReader reader = cmd.ExecuteReader();
@@ -33,7 +33,6 @@ namespace Weather.Services
                     return user;
                 }
             }
-
         }
     }
 }

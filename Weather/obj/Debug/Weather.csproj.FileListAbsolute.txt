@@ -87,3 +87,11 @@ C:\Users\nikola.petrovic\source\repos\Weather\Weather\bin\Microsoft.Owin.xml
 C:\Users\nikola.petrovic\source\repos\Weather\Weather\bin\Microsoft.Owin.Security.xml
 C:\Users\nikola.petrovic\source\repos\Weather\Weather\bin\Microsoft.Owin.Security.OAuth.xml
 C:\Users\nikola.petrovic\source\repos\Weather\Weather\bin\System.Web.Http.Owin.xml
+C:\Users\nikola.petrovic\source\repos\Weather\Weather\bin\Microsoft.Bcl.AsyncInterfaces.dll
+C:\Users\nikola.petrovic\source\repos\Weather\Weather\bin\Microsoft.Extensions.DependencyInjection.Abstractions.dll
+C:\Users\nikola.petrovic\source\repos\Weather\Weather\bin\System.Runtime.CompilerServices.Unsafe.dll
+C:\Users\nikola.petrovic\source\repos\Weather\Weather\bin\System.Threading.Tasks.Extensions.dll
+C:\Users\nikola.petrovic\source\repos\Weather\Weather\bin\Microsoft.Bcl.AsyncInterfaces.xml
+C:\Users\nikola.petrovic\source\repos\Weather\Weather\bin\Microsoft.Extensions.DependencyInjection.Abstractions.xml
+C:\Users\nikola.petrovic\source\repos\Weather\Weather\bin\System.Runtime.CompilerServices.Unsafe.xml
+C:\Users\nikola.petrovic\source\repos\Weather\Weather\bin\System.Threading.Tasks.Extensions.xml
