@@ -80,9 +80,7 @@ namespace Weather.JWT
         public bool LifetimeValidator(DateTime? notBefore,
                                       DateTime? expires,
                                       SecurityToken securityToken,
-                                      TokenValidationParameters validationParameters
-                                      )
-
+                                      TokenValidationParameters validationParameters)
         {
             if (expires != null)
             {
@@ -93,7 +91,6 @@ namespace Weather.JWT
 
             }
             return false;
-
         }
 
     }

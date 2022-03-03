@@ -27,7 +27,6 @@ namespace Weather.Services
             });
 
             const string sec = "simplekeysimplekeysimplekey";
-            var now = DateTime.UtcNow;
             var securityKey = new SymmetricSecurityKey(Encoding.Default.GetBytes(sec));
             var singingCredentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256Signature);
 
@@ -43,8 +42,5 @@ namespace Weather.Services
 
             return tokenString;
         }
-
-
-
     }
 }
