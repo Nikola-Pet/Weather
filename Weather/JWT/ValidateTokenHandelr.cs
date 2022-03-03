@@ -10,7 +10,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Web;
 
-namespace Weather.JWT
+namespace Orion.WeatherApi.JWT
 {
     public class ValidateTokenHandelr : DelegatingHandler
     {

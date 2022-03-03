@@ -1,13 +1,7 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Owin.Security.OAuth;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web.Http;
-using Weather.JWT;
-using Weather.Repository;
+﻿using System.Web.Http;
+using Orion.WeatherApi.JWT;
 
-namespace Weather
+namespace Orion.WeatherApi
 {
     public static class WebApiConfig
     {

@@ -1,13 +1,10 @@
 ﻿using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
-using System.Web;
-using Weather.Models;
+using Orion.WeatherApi.Models;
 
-namespace Weather.Services
+namespace Orion.WeatherApi.Services
 {
     public class WeatherServices
     {

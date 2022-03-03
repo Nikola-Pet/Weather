@@ -1,14 +1,10 @@
 ﻿using Microsoft.IdentityModel.Tokens;
 using System;
-using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
-using System.Net.Http.Headers;
 using System.Security.Claims;
 using System.Text;
-using System.Web;
 
-namespace Weather.Services
+namespace Orion.WeatherApi.Services
 {
     public class AuthenticateService
     {

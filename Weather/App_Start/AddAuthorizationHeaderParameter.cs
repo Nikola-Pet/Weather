@@ -1,7 +1,7 @@
 ﻿using Swashbuckle.Swagger;
 using System.Web.Http.Description;
 
-namespace Weather
+namespace Orion.WeatherApi
 {
     internal class AddAuthorizationHeaderParameter : IOperationFilter
     {

@@ -1,11 +1,11 @@
 using System.Web.Http;
 using WebActivatorEx;
-using Weather;
+using Orion.WeatherApi;
 using Swashbuckle.Application;
 
 [assembly: PreApplicationStartMethod(typeof(SwaggerConfig), "Register")]
 
-namespace Weather
+namespace Orion.WeatherApi
 {
     public class SwaggerConfig
     {

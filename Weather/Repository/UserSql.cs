@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
+﻿using System.Configuration;
 using System.Data.SqlClient;
-using System.Linq;
-using System.Web;
-using Weather.Models;
+using Orion.WeatherApi.Models;
 
-namespace Weather.Repository
+namespace Orion.WeatherApi.Repository
 {
     public class UserSql : IUserSql
     {
