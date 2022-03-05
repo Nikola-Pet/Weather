@@ -4,7 +4,7 @@ using Orion.WeatherApi.Models;
 
 namespace Orion.WeatherApi.Repository
 {
-    public class UserSql : IUserSql
+    public class UserRepository : IUserRepository
     {
         public UserModel GetUser(string username, string password)
         {

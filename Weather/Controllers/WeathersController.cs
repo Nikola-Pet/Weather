@@ -2,6 +2,7 @@
 using System.Web.Http;
 using Orion.WeatherApi.Models;
 using Orion.WeatherApi.Services;
+using Weather.DTO;
 
 namespace Orion.WeatherApi.Controllers
 {
@@ -16,9 +17,10 @@ namespace Orion.WeatherApi.Controllers
             this.weatherServices = new WeatherServices();   
         }
         
-        public async Task<WeatherModel> GetWeather(string city)
+        [HttpPost]
+        public async Task<WeatherModel> GetWeather([FromBody] SearchCity searchCity)
         {
-            return await this.weatherServices.GetWeather(city);
+            return await this.weatherServices.GetWeather(searchCity.cityName);
         }
     }
 }
