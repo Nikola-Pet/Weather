@@ -144,6 +144,8 @@
     <Compile Include="Controllers\WeathersController.cs" />
     <Compile Include="DTO\LogInRequest.cs" />
     <Compile Include="DTO\SearchCity.cs" />
+    <Compile Include="DTO\SearchCityId.cs" />
+    <Compile Include="DTO\SearchLatLon.cs" />
     <Compile Include="DTO\WeatherView.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -158,7 +160,7 @@
     <Compile Include="Repository\IUserRepository.cs" />
     <Compile Include="Repository\UserRepository.cs" />
     <Compile Include="Services\AuthenticateService.cs" />
-    <Compile Include="Services\WeatherServices.cs" />
+    <Compile Include="Services\WeatherService.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
