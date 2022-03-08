@@ -144,13 +144,17 @@
     <Compile Include="Controllers\WeathersController.cs" />
     <Compile Include="DTO\LogInRequest.cs" />
     <Compile Include="DTO\SearchCity.cs" />
+    <Compile Include="DTO\WeatherView.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="JWT\ValidateTokenHandelr.cs" />
+    <Compile Include="Models\HystoryModel.cs" />
     <Compile Include="Models\UserModel.cs" />
     <Compile Include="Models\WeatherModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repository\HistoryRepository.cs" />
+    <Compile Include="Repository\IHistoryRepository.cs" />
     <Compile Include="Repository\IUserRepository.cs" />
     <Compile Include="Repository\UserRepository.cs" />
     <Compile Include="Services\AuthenticateService.cs" />

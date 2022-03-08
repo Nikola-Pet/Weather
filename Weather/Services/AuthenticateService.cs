@@ -1,6 +1,9 @@
 ﻿using Microsoft.IdentityModel.Tokens;
 using System;
+using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
+using System.Linq;
+using System.Net.Http;
 using System.Security.Claims;
 using System.Text;
 
@@ -38,5 +41,46 @@ namespace Orion.WeatherApi.Services
 
             return tokenString;
         }
+
+        public string GetJwtTokenString(HttpRequestMessage request)
+        {
+            IEnumerable<string> authzHeaders;
+            request.Headers.TryGetValues("Authorization", out authzHeaders);
+            var bearerToken = authzHeaders.ElementAt(0);
+            string token = bearerToken.StartsWith("Bearer ") ? bearerToken.Substring(7) : bearerToken;
+
+            return token;
+        }
+
+        public JwtSecurityToken GetJwtToken(string token)
+        {
+            var tokenHandler = new JwtSecurityTokenHandler();
+            var key = Encoding.ASCII.GetBytes("simplekeysimplekeysimplekey");
+
+            tokenHandler.ValidateToken(token, new TokenValidationParameters
+            {
+                ValidateIssuerSigningKey = true,
+                IssuerSigningKey = new SymmetricSecurityKey(key),
+                ValidateIssuer = false,
+                ValidateAudience = false,
+
+            }, out SecurityToken validatedToken);
+
+            var jwtToken = (JwtSecurityToken)validatedToken;
+            return jwtToken;
+        }
+
+        public string ValidateUsernameJwtToken(string token)
+        {
+            var jwtToken = GetJwtToken(token);
+
+            var r = jwtToken.Claims.First(x => x.Type == "unique_name").ToString();
+            string rola = r.Remove(0, 13);
+            return rola;
+        }
+
+
+
+
     }
 }

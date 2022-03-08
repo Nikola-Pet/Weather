@@ -24,7 +24,7 @@ namespace Orion.WeatherApi.JWT
                 return false;
             }
             var bearerToken = authzHeaders.ElementAt(0);
-            token = token = bearerToken.StartsWith("Bearer ") ? bearerToken.Substring(7) : bearerToken;
+            token = bearerToken.StartsWith("Bearer ") ? bearerToken.Substring(7) : bearerToken;
             return true;
         }
 

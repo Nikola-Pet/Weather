@@ -3,7 +3,7 @@ using System.Web;
 using Orion.WeatherApi.Services;
 
 using Orion.WeatherApi.Repository;
-using Weather.DTO;
+using Orion.WeatherApi.DTO;
 
 namespace Orion.WeatherApi.Controllers
 {
@@ -19,7 +19,7 @@ namespace Orion.WeatherApi.Controllers
         }
 
 
-        // POST: api/LogIn
+        // POST: api/Users
         public IHttpActionResult LogIn([FromBody] LogInRequest logInRequest)
         {
             var user = userSql.GetUser(logInRequest.Username, logInRequest.Password);
