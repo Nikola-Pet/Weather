@@ -8,7 +8,6 @@ namespace Orion.WeatherApi.Models
         public string Username { get; set; }
         public string SearchRequest { get; set; }
         public string Data { get; set; }
-
         public string Type { get; set; }
         public string Response { get; set; }
 

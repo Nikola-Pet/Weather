@@ -1,5 +1,4 @@
-﻿using System;
-using Orion.WeatherApi.Models;
+﻿using Orion.WeatherApi.Models;
 
 namespace Orion.WeatherApi.Repository
 {

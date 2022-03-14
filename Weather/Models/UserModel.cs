@@ -1,5 +1,4 @@
-﻿using System;
-
+﻿
 namespace Orion.WeatherApi.Models
 {
     public class UserModel
