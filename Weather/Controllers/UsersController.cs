@@ -4,6 +4,8 @@ using Orion.WeatherApi.Services;
 
 using Orion.WeatherApi.Repository;
 using Orion.WeatherApi.DTO;
+using System.Net.Http;
+using System.Net;
 
 namespace Orion.WeatherApi.Controllers
 {
@@ -20,17 +22,18 @@ namespace Orion.WeatherApi.Controllers
 
 
         // POST: api/Users
-        public IHttpActionResult LogIn([FromBody] LogInRequest logInRequest)
+        [HttpGet]
+        public HttpResponseMessage LogIn([FromBody] LogInRequest logInRequest)
         {
             var user = userSql.GetUser(logInRequest.Username, logInRequest.Password);
-            string token = authenticateService.GenerateToken(user.UserId, user.Username);
-
-            HttpContext httpContext = HttpContext.Current;
-           
-
-            httpContext.Response.Headers.Add("Authorization", token);
-
-            return Ok<string>(token);
+            if (user != null)
+            {
+                return Request.CreateResponse(HttpStatusCode.OK, AuthenticateService.GenerateToken(user.UserId, user.Username));
+            }
+            else
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.BadGateway, "User name or password is invalid");
+            }
         }
     }
 }

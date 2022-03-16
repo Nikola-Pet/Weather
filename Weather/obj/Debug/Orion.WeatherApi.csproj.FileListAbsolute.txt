@@ -95,3 +95,6 @@ C:\Users\nikola.petrovic\source\repos\Weather\Weather\obj\Debug\Orion.WeatherApi
 C:\Users\nikola.petrovic\source\repos\Weather\Weather\obj\Debug\Orion.WeatherApi.csproj.CopyComplete
 C:\Users\nikola.petrovic\source\repos\Weather\Weather\obj\Debug\Weather.dll
 C:\Users\nikola.petrovic\source\repos\Weather\Weather\obj\Debug\Weather.pdb
+C:\Users\nikola.petrovic\source\repos\Weather\Weather\bin\System.Web.Cors.dll
+C:\Users\nikola.petrovic\source\repos\Weather\Weather\bin\System.Web.Http.Cors.dll
+C:\Users\nikola.petrovic\source\repos\Weather\Weather\bin\System.Web.Http.Cors.xml

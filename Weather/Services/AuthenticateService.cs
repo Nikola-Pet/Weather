@@ -11,72 +11,84 @@ namespace Orion.WeatherApi.Services
 {
     public class AuthenticateService
     {
-        public string GenerateToken(int id, string username)
+        private static string secret = "hdsklaghkasjgjosadfjgjg4+4df6g6+4fd654g6df46g46d";
+
+        public static string GenerateToken(int id, string username)
         {
-
-            DateTime expires = DateTime.UtcNow.AddDays(1);
-            DateTime issuedAt = DateTime.UtcNow;
-
-            var tokenHandler = new JwtSecurityTokenHandler();
-
-            ClaimsIdentity claimIdentity = new ClaimsIdentity(new[]
+            byte[] key = Convert.FromBase64String(secret);
+            SymmetricSecurityKey securityKey = new SymmetricSecurityKey(key);
+            SecurityTokenDescriptor descriptor = new SecurityTokenDescriptor
             {
-                new Claim(ClaimTypes.NameIdentifier, id.ToString()),
-                new Claim(ClaimTypes.Name, username),
-            });
-
-            const string sec = "simplekeysimplekeysimplekey";
-            var securityKey = new SymmetricSecurityKey(Encoding.Default.GetBytes(sec));
-            var singingCredentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256Signature);
-
-            var token = (JwtSecurityToken)
-                tokenHandler.CreateJwtSecurityToken(
-                    subject: claimIdentity,
-                    notBefore: issuedAt,
-                    expires: expires,
-                    signingCredentials: singingCredentials
-                    );
-
-            var tokenString = tokenHandler.WriteToken(token);
-
-            return tokenString;
+                Subject = new ClaimsIdentity(claims: new[]
+                {
+                    new Claim(ClaimTypes.Name, username),
+                    new Claim(ClaimTypes.NameIdentifier, id.ToString())
+                }),
+                Expires = DateTime.UtcNow.AddDays(1),
+                SigningCredentials = new SigningCredentials(securityKey,SecurityAlgorithms.HmacSha256Signature)
+            };
+            JwtSecurityTokenHandler handler = new JwtSecurityTokenHandler();
+            JwtSecurityToken token = handler.CreateJwtSecurityToken(descriptor);
+            return handler.WriteToken(token);
         }
 
-        public string GetJwtTokenString(HttpRequestMessage request)
+       public static ClaimsPrincipal GetPrincipal(string token)
         {
-            IEnumerable<string> authzHeaders;
-            request.Headers.TryGetValues("Authorization", out authzHeaders);
-            var bearerToken = authzHeaders.ElementAt(0);
-            string token = bearerToken.StartsWith("Bearer ") ? bearerToken.Substring(7) : bearerToken;
-
-            return token;
-        }
-
-        public JwtSecurityToken GetJwtToken(string token)
-        {
-            var tokenHandler = new JwtSecurityTokenHandler();
-            var key = Encoding.ASCII.GetBytes("simplekeysimplekeysimplekey");
-
-            tokenHandler.ValidateToken(token, new TokenValidationParameters
+            try
             {
-                ValidateIssuerSigningKey = true,
-                IssuerSigningKey = new SymmetricSecurityKey(key),
-                ValidateIssuer = false,
-                ValidateAudience = false,
-
-            }, out SecurityToken validatedToken);
-
-            var jwtToken = (JwtSecurityToken)validatedToken;
-            return jwtToken;
+                JwtSecurityTokenHandler tokenHandler = new JwtSecurityTokenHandler();
+                JwtSecurityToken jwtToken =(JwtSecurityToken)tokenHandler.ReadToken(token);
+                if (jwtToken == null)
+                {
+                    return null;
+                }
+                byte[] key = Convert.FromBase64String(secret);
+                TokenValidationParameters parameters = new TokenValidationParameters()
+                { 
+                    RequireExpirationTime = true,
+                    ValidateIssuer = false,
+                    ValidateAudience = false,
+                    IssuerSigningKey = new SymmetricSecurityKey(key)
+                };
+                SecurityToken securityToken;
+                ClaimsPrincipal principal = tokenHandler.ValidateToken(token, parameters, out securityToken);
+                return principal;
+            }
+            catch 
+            {
+                return null;
+            }
         }
 
-        public string ValidateUsernameJwtToken(string token)
+       public static string GetUsernameFromJWT(string token)
         {
-            var jwtToken = GetJwtToken(token);
+            string username = null;
+            
+            string token2 = token.StartsWith("Bearer ") ? token.Substring(7) : token;
 
-            var r = jwtToken.Claims.First(x => x.Type == "unique_name").ToString();
-            string rola = r.Remove(0, 13);
-            return rola;
+            ClaimsPrincipal principal = GetPrincipal(token2);
+            
+            if (principal == null)
+            {
+                return null;
+            }
+
+            ClaimsIdentity identity = null;
+
+            try
+            {
+                identity = (ClaimsIdentity)principal.Identity;
+            }
+            catch (NullReferenceException)
+            {
+
+                return null;
+            }
+
+            Claim usernameClaim = identity.FindFirst(ClaimTypes.Name);
+            username = usernameClaim.Value;
+
+            return username;
         }
 
 

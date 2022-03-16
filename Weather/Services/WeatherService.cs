@@ -22,11 +22,32 @@ namespace Orion.WeatherApi.Services
             return json;
         }
 
-        public async Task<ResponseWeather> GetWeatherByCityName(string city)
+        public string QueryString(string queryString ,string unit)
+        {
+            switch (unit)
+            {
+                case "Celsius":
+                    return queryString += "&units=metric";
+
+                case "Fahrenheit":
+                    return queryString += "&units=imperial";
+
+                case "Kelvin":
+                    return queryString += "";
+            }
+
+            return null;
+        }
+        
+
+        public async Task<ResponseWeather> GetWeatherByCityName(string city, string unit)
         {
             string key = "631b2522cc672480a232e53d72c18a6c";
             string queryString = "http://api.openweathermap.org/data/2.5/weather?q="
-                + city + "&APPID=" + key+ "&units=metric"; //kmh
+                + city + "&APPID=" + key;
+
+           queryString = QueryString(queryString, unit);
+            
 
             string results = await GetDataFromService(queryString).ConfigureAwait(false);
 
@@ -36,11 +57,13 @@ namespace Orion.WeatherApi.Services
         }
 
 
-        public async Task<ResponseWeather> GetWeatherByLonLat(double lat, double lon)
+        public async Task<ResponseWeather> GetWeatherByLonLat(double lat, double lon, string unit)
         {
             string key = "631b2522cc672480a232e53d72c18a6c";
             string queryString = "http://api.openweathermap.org/data/2.5/weather?lat="+ lat + "&lon="
-                + lon + "&APPID=" + key + "&units=metric"; 
+                + lon + "&APPID=" + key; 
+
+            queryString = QueryString(queryString, unit);
 
             string results = await GetDataFromService(queryString).ConfigureAwait(false);
 
