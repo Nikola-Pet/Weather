@@ -16,11 +16,13 @@ namespace Orion.WeatherApi.Controllers
     {
         private WeatherService weatherServices;
         private IHistoryRepository hIstoryRepository;
+        private IpAddressService ipAddressService;
 
         public WeathersController()
         {
             this.weatherServices = new WeatherService();
             this.hIstoryRepository = new HistoryRepository();
+            this.ipAddressService = new IpAddressService();
         }
        
         [Route("api/Weathers/ByCity")]
@@ -31,6 +33,7 @@ namespace Orion.WeatherApi.Controllers
 
             HystoryModel historyModel = new HystoryModel();
             historyModel.Username = AuthenticateService.GetUsernameFromJWT(request.ToString());
+            historyModel.IPAddress = ipAddressService.GetIp();
             historyModel.SearchRequest = "ByCity";
             historyModel.Data = searchCity.cityName;
 

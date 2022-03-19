@@ -167,6 +167,7 @@
     <Compile Include="Repository\IUserRepository.cs" />
     <Compile Include="Repository\UserRepository.cs" />
     <Compile Include="Services\AuthenticateService.cs" />
+    <Compile Include="Services\IpAddressService.cs" />
     <Compile Include="Services\WeatherService.cs" />
   </ItemGroup>
   <ItemGroup>
