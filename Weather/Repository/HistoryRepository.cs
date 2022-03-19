@@ -8,28 +8,22 @@ namespace Orion.WeatherApi.Repository
     {
         public void AddHistory(HystoryModel history)
         {
-            using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString))
-            {
-                con.Open();
-                using (SqlCommand cmd = new SqlCommand(
-                    "INSERT INTO [dbo].[History](" +
-                    "[Username]" +
-                    ",[SearchRequest]" +
-                    ",[Data]" +
-                    ",[Type]" +
-                    ",[Response])" +
+            SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString);
+            con.Open();
+            SqlCommand cmd = new SqlCommand();
+            cmd.Connection = con;
+            cmd.CommandText = "INSERT INTO [dbo].[History](" +
+                    "[Username], [SearchRequest], [Data], [Type], [Response])" +
                     "VALUES" +
-                    "('" + history.Username + "','" + 
-                    history.SearchRequest + "', '" + 
-                    history.Data + "" +
-                    "', '" + history.Type + "', '" + 
-                    history.Response + "')", con))
-                {
-                    cmd.ExecuteNonQuery();
+                    "(@Username, @SearchRequest, @Data, @Type, @Response)";
 
-                }
-                con.Close();
-            }            
+            cmd.Parameters.AddWithValue("@username", history.Username);
+            cmd.Parameters.AddWithValue("@SearchRequest", history.SearchRequest);
+            cmd.Parameters.AddWithValue("@Data", history.Data);
+            cmd.Parameters.AddWithValue("@Type", history.Type);
+            cmd.Parameters.AddWithValue("@Response", history.Response);
+            cmd.ExecuteNonQuery();
+                      
         }
     }
 }
