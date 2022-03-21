@@ -13,7 +13,7 @@ namespace Orion.WeatherApi.Repository
             SqlCommand cmd = new SqlCommand();
             cmd.Connection = con;
             cmd.CommandText = "INSERT INTO [dbo].[History](" +
-                    "[Username], [IPAddress], [DateTime], [SearchRequest], [Data], [Type], [Response])" +
+                    "[Username], [IPAddress], [DateTime], [SearchRequest], [Data], [TypeId], [Response])" +
                     "VALUES" +
                     "(@Username, @IPAddress, @DateTime, @SearchRequest, @Data, @Type, @Response)";
 
@@ -22,11 +22,39 @@ namespace Orion.WeatherApi.Repository
             cmd.Parameters.AddWithValue("@IPAddress", history.IPAddress);
             cmd.Parameters.AddWithValue("@DateTime", history.DateTime);
             cmd.Parameters.AddWithValue("@Data", history.Data);
-            cmd.Parameters.AddWithValue("@Type", history.Type);
+            cmd.Parameters.AddWithValue("@Type", GetTipeIdByName(history.TypeId));
+            if (history.Response == null)
+            {
+                history.Response = " ";
+            }
             cmd.Parameters.AddWithValue("@Response", history.Response);
 
             cmd.ExecuteNonQuery();
-                      
         }
+        public int GetTipeIdByName(string name)
+        {
+            SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString);
+            con.Open();
+            SqlCommand cmd = new SqlCommand();
+            cmd.Connection = con;
+            cmd.CommandText = "SELECT [TypeId] FROM[dbo].[TypeResponse] WHERE Name = @name";
+            
+            cmd.Parameters.AddWithValue("@Name", name);
+
+            SqlDataReader reader = cmd.ExecuteReader();
+
+            int id = 0;
+
+            while (reader.Read())
+            {
+                 id = int.Parse(reader["TypeId"].ToString());
+            }
+
+            return id;
+
+
+        }
+
     }
+
 }

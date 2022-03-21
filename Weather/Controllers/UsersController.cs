@@ -6,34 +6,35 @@ using Orion.WeatherApi.Repository;
 using Orion.WeatherApi.DTO;
 using System.Net.Http;
 using System.Net;
+using System;
 
 namespace Orion.WeatherApi.Controllers
 {
     public class UsersController : ApiController
     {
-        private IUserRepository userSql;
-        private AuthenticateService authenticateService;
+        private IUserRepository userRepository;
+        private IFiledLoginRepository filedLoginRepository;
 
         public UsersController()
         {
-            this.authenticateService = new AuthenticateService();
-            this.userSql = new UserRepository();
+            this.userRepository = new UserRepository();
+            this.filedLoginRepository = new FiledLoginRepository();
         }
 
 
         // POST: api/Users
         [HttpGet]
-        public HttpResponseMessage LogIn([FromBody] LogInRequest logInRequest)
+        public  IHttpActionResult LogIn([FromBody] LogInRequest logInRequest)
         {
-            var user = userSql.GetUser(logInRequest.Username, logInRequest.Password);
-            if (user != null)
+            var user = userRepository.GetUser(logInRequest.Username, Utility.Encrypt(logInRequest.Password));
+
+            if (user.UserId == 0)
             {
-                return Request.CreateResponse(HttpStatusCode.OK, AuthenticateService.GenerateToken(user.UserId, user.Username));
+                filedLoginRepository.AddFiledLogin(logInRequest.Username, logInRequest.Password);
+                return BadRequest("User name or password is invalid");
             }
-            else
-            {
-                return Request.CreateErrorResponse(HttpStatusCode.BadGateway, "User name or password is invalid");
-            }
+
+            return Ok(AuthenticateService.GenerateToken(user.UserId, user.Username));
         }
     }
 }

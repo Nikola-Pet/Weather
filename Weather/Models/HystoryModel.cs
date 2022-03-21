@@ -12,9 +12,7 @@ namespace Orion.WeatherApi.Models
         public DateTime DateTime { get; set; } = DateTime.Now;
         public string SearchRequest { get; set; }
         public string Data { get; set; }
-        public string Type { get; set; }
+        public string TypeId { get; set; }
         public string Response { get; set; }
-
-
     }
 }

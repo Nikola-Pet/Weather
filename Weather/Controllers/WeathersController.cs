@@ -17,15 +17,17 @@ namespace Orion.WeatherApi.Controllers
         private WeatherService weatherServices;
         private IHistoryRepository hIstoryRepository;
         private IpAddressService ipAddressService;
+        private ICityCodeRepository cityCodeRepository;
 
         public WeathersController()
         {
             this.weatherServices = new WeatherService();
             this.hIstoryRepository = new HistoryRepository();
             this.ipAddressService = new IpAddressService();
+            this.cityCodeRepository = new CityCodeRepository();
         }
        
-        [Route("api/Weathers/ByCity")]
+        [Route("api/Weathers/SearchByCity")]
         [HttpPost]
         public async Task<IHttpActionResult> GetWeatherByCityName([FromBody] SearchCity searchCity)
         {
@@ -43,7 +45,7 @@ namespace Orion.WeatherApi.Controllers
 
                 if (weather.id > 0)
                 {
-                    historyModel.Type = "Ok";
+                    historyModel.TypeId = "Ok";
                     historyModel.Response = JsonConvert.SerializeObject(weather).ToString();
 
                     return Ok(weather);
@@ -51,15 +53,15 @@ namespace Orion.WeatherApi.Controllers
                 else
                 {
 
-                    historyModel.Type = "BadRequest";
+                    historyModel.TypeId = "BadRequest";
                     historyModel.Response = null;
 
-                    return BadRequest();
+                    return BadRequest("City name is incorect");
                 }
             }
             catch(InvalidOperationException)
             {
-                historyModel.Type = "BadRequest";
+                historyModel.TypeId = "BadRequest";
                 historyModel.Response = null;
 
                 return BadRequest("Select unit");
@@ -70,7 +72,7 @@ namespace Orion.WeatherApi.Controllers
             }
         }
 
-        [Route("api/Weathers/ByLatLon")]
+        [Route("api/Weathers/SearchByLatLon")]
         [HttpPost]
         public async Task<IHttpActionResult> GetWeatherByLonLat([FromBody] SearchLatLon searchLatLon)
         {
@@ -78,6 +80,7 @@ namespace Orion.WeatherApi.Controllers
 
             HystoryModel historyModel = new HystoryModel();
             historyModel.Username = AuthenticateService.GetUsernameFromJWT(request.ToString());
+            historyModel.IPAddress = ipAddressService.GetIp();
             historyModel.SearchRequest = "Lat/Lon";
             historyModel.Data = searchLatLon.Latitude.ToString() + ", " + searchLatLon.Longitude.ToString();
 
@@ -85,14 +88,14 @@ namespace Orion.WeatherApi.Controllers
             {
                 var weather = await weatherServices.GetWeatherByLonLat(searchLatLon.Latitude, searchLatLon.Longitude, searchLatLon.unit);
 
-                historyModel.Type = "Ok";
+                historyModel.TypeId = "Ok";
                 historyModel.Response = JsonConvert.SerializeObject(weather).ToString();
 
                 return Ok(weather);
             }
             catch (InvalidOperationException)
             {
-                historyModel.Type = "BadRequest";
+                historyModel.TypeId = "BadRequest";
                 historyModel.Response = null;
 
                 return BadRequest("Select unit");
@@ -103,7 +106,7 @@ namespace Orion.WeatherApi.Controllers
             }
         }
 
-        [Route("api/Weathers/ByCityId")]
+        [Route("api/Weathers/SearchByCityId")]
         [HttpPost]
         public async Task<IHttpActionResult> GetWeatherByCityId([FromBody] SearchCityId searchCityId)
         {
@@ -112,16 +115,29 @@ namespace Orion.WeatherApi.Controllers
 
             HystoryModel historyModel = new HystoryModel();
             historyModel.Username = AuthenticateService.GetUsernameFromJWT(request.ToString());
+            historyModel.IPAddress = ipAddressService.GetIp();
             historyModel.SearchRequest = "CityId";
             historyModel.Data = searchCityId.CityId.ToString();
 
             try
             {
-                var weather = await weatherServices.GetWeatherByCityId(searchCityId.CityId);
+                int id = cityCodeRepository.GetWeatherCityId(searchCityId.CityId);
+
+                if (id == 0)
+                {
+                    string message = "The cityId is incorrect";
+
+                    historyModel.TypeId = "BadRequest";
+                    historyModel.Response = null;
+
+                    return BadRequest(message);
+                }
+
+                var weather = await weatherServices.GetWeatherByCityId(id, searchCityId.unit);
 
                 if (weather.id > 0)
                 {
-                    historyModel.Type = "Ok";
+                    historyModel.TypeId = "Ok";
                     historyModel.Response = JsonConvert.SerializeObject(weather).ToString();
 
                     return Ok(weather);
@@ -130,7 +146,7 @@ namespace Orion.WeatherApi.Controllers
                 {
                     string message = "The cityId is incorrect";
 
-                    historyModel.Type = "BadRequest";
+                    historyModel.TypeId = "BadRequest";
                     historyModel.Response = null;
 
                     return BadRequest(message);
@@ -138,7 +154,7 @@ namespace Orion.WeatherApi.Controllers
             }
             catch (InvalidOperationException)
             {
-                historyModel.Type = "BadRequest";
+                historyModel.TypeId = "BadRequest";
                 historyModel.Response = null;
 
                 return BadRequest("Select unit");
@@ -147,6 +163,15 @@ namespace Orion.WeatherApi.Controllers
             {
                 hIstoryRepository.AddHistory(historyModel);
             }
+        }
+
+        [Route("api/Weathers/GetCityCodes")]
+        [HttpGet]
+        public IHttpActionResult GetCityCodes()
+        {
+            var cityCodes =  cityCodeRepository.GetAllCityCode();
+
+            return  Ok(cityCodes);
         }
     }
 }

@@ -72,10 +72,12 @@ namespace Orion.WeatherApi.Services
             return weather;
         }
 
-        public async Task<ResponseWeather> GetWeatherByCityId(int cityId)
+        public async Task<ResponseWeather> GetWeatherByCityId(int cityId, string unit)
         {
             string key = "631b2522cc672480a232e53d72c18a6c";
-            string queryString = "http://api.openweathermap.org/data/2.5/weather?id=" + cityId + "&APPID=" + key + "&units=metric"; 
+            string queryString = "http://api.openweathermap.org/data/2.5/weather?id=" + cityId + "&APPID=" + key;
+
+            queryString = QueryString(queryString, unit);
 
             string results = await GetDataFromService(queryString).ConfigureAwait(false);
 
