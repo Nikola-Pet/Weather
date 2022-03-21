@@ -22,9 +22,10 @@ namespace Orion.WeatherApi.Services
             return json;
         }
 
-        public string QueryString(string data, string unit, string searchType)
+        public string QueryString(string data, string unit, string searchType, string controller)
         {
             string key = "631b2522cc672480a232e53d72c18a6c";
+            string queryString = null;
 
             switch (searchType)
             {
@@ -44,8 +45,20 @@ namespace Orion.WeatherApi.Services
 
             }
 
-            string queryString = "http://api.openweathermap.org/data/2.5/weather?"
-                + data + "&APPID=" + key;
+
+            switch (controller)
+            {
+                case "Weather":
+                    queryString = "http://api.openweathermap.org/data/2.5/weather?"
+                        + data + "&APPID=" + key;
+                    break;
+
+                case "Forecast":
+                    queryString = "https://api.openweathermap.org/data/2.5/onecall?" + data + "&exclude=daily" + "&APPID=" + key;
+                    break;
+            }
+
+            
 
             switch (unit)
             {
@@ -62,9 +75,9 @@ namespace Orion.WeatherApi.Services
             return null;
         }
 
-        public async Task<string> JsonResults(string data, string unit, string searchType)
+        public async Task<string> JsonResults(string data, string unit, string searchType, string controller)
         {
-            string queryString = QueryString(data, unit, searchType);
+            string queryString = QueryString(data, unit, searchType, controller);
 
 
             string results = await GetDataFromService(queryString).ConfigureAwait(false);
@@ -78,7 +91,7 @@ namespace Orion.WeatherApi.Services
             
             
 
-            string results = await JsonResults(city, unit, "SearchByCity");
+            string results = await JsonResults(city, unit, "SearchByCity", "Weather");
 
             ResponseWeather weather = JsonConvert.DeserializeObject<ResponseWeather>(results);
 
@@ -93,9 +106,8 @@ namespace Orion.WeatherApi.Services
 
             string data = a +" "+  b;
 
-            //string queryString = QueryString(data, unit, "SearchByLatLon");
 
-            string results = await JsonResults(data, unit, "SearchByLatLon");
+            string results = await JsonResults(data, unit, "SearchByLatLon", "Weather");
 
             ResponseWeather weather = JsonConvert.DeserializeObject<ResponseWeather>(results);
 
@@ -104,9 +116,7 @@ namespace Orion.WeatherApi.Services
 
         public async Task<ResponseWeather> GetWeatherByCityId(int cityId, string unit)
         {
-            string queryString = QueryString(cityId.ToString(), unit, "SearchByCityId");
-
-            string results = await GetDataFromService(queryString).ConfigureAwait(false);
+            string results = await JsonResults(cityId.ToString(), unit, "SearchByCityId", "Weather");
 
             ResponseWeather weather = JsonConvert.DeserializeObject<ResponseWeather>(results);
 

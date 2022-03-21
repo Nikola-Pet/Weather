@@ -146,6 +146,7 @@
     <Compile Include="App_Start\AddAuthorizationHeaderParameter.cs" />
     <Compile Include="App_Start\SwaggerConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Controllers\ForecastController.cs" />
     <Compile Include="Controllers\UsersController.cs" />
     <Compile Include="Controllers\WeathersController.cs" />
     <Compile Include="DTO\CityCodeList.cs" />
