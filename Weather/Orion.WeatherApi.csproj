@@ -148,6 +148,7 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\UsersController.cs" />
     <Compile Include="Controllers\WeathersController.cs" />
+    <Compile Include="Controllers\WeathersForecastController.cs" />
     <Compile Include="DTO\CityCodeList.cs" />
     <Compile Include="DTO\LogInRequest.cs" />
     <Compile Include="DTO\SearchCity.cs" />

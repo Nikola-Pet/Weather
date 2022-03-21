@@ -22,8 +22,31 @@ namespace Orion.WeatherApi.Services
             return json;
         }
 
-        public string QueryString(string queryString ,string unit)
+        public string QueryString(string data, string unit, string searchType)
         {
+            string key = "631b2522cc672480a232e53d72c18a6c";
+
+            switch (searchType)
+            {
+                case "SearchByCity":
+                     data = "q=" + data;
+                    break;
+
+                case "SearchByLatLon":
+                    string[] LatLon = data.Split(' ');
+                    
+                    data = "lat=" + LatLon[0] + "&lon=" + LatLon[1];
+                    break;
+
+                case "SearchByCityId":
+                    data = "id=" + data;
+                    break;
+
+            }
+
+            string queryString = "http://api.openweathermap.org/data/2.5/weather?"
+                + data + "&APPID=" + key;
+
             switch (unit)
             {
                 case "Celsius":
@@ -42,11 +65,8 @@ namespace Orion.WeatherApi.Services
 
         public async Task<ResponseWeather> GetWeatherByCityName(string city, string unit)
         {
-            string key = "631b2522cc672480a232e53d72c18a6c";
-            string queryString = "http://api.openweathermap.org/data/2.5/weather?q="
-                + city + "&APPID=" + key;
-
-           queryString = QueryString(queryString, unit);
+            
+            string queryString = QueryString(city, unit, "SearchByCity");
             
 
             string results = await GetDataFromService(queryString).ConfigureAwait(false);
@@ -59,11 +79,12 @@ namespace Orion.WeatherApi.Services
 
         public async Task<ResponseWeather> GetWeatherByLonLat(double lat, double lon, string unit)
         {
-            string key = "631b2522cc672480a232e53d72c18a6c";
-            string queryString = "http://api.openweathermap.org/data/2.5/weather?lat="+ lat + "&lon="
-                + lon + "&APPID=" + key; 
+            string a = lat.ToString();
+            string b = lon.ToString();
 
-            queryString = QueryString(queryString, unit);
+            string data = a +" "+  b;
+
+            string queryString = QueryString(data, unit, "SearchByLatLon");
 
             string results = await GetDataFromService(queryString).ConfigureAwait(false);
 
@@ -74,10 +95,7 @@ namespace Orion.WeatherApi.Services
 
         public async Task<ResponseWeather> GetWeatherByCityId(int cityId, string unit)
         {
-            string key = "631b2522cc672480a232e53d72c18a6c";
-            string queryString = "http://api.openweathermap.org/data/2.5/weather?id=" + cityId + "&APPID=" + key;
-
-            queryString = QueryString(queryString, unit);
+            string queryString = QueryString(cityId.ToString(), unit, "SearchByCityId");
 
             string results = await GetDataFromService(queryString).ConfigureAwait(false);
 
