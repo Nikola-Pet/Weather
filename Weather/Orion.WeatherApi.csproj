@@ -164,7 +164,7 @@
     <Compile Include="Models\FiledLogin.cs" />
     <Compile Include="Models\HystoryModel.cs" />
     <Compile Include="Models\UserModel.cs" />
-    <Compile Include="Models\WeatherForecastModel.cs" />
+    <Compile Include="Models\ForecastModel.cs" />
     <Compile Include="Models\WeatherModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repository\CityCodeRepository.cs" />

@@ -2,6 +2,7 @@
 using System.Net.Http;
 using System.Threading.Tasks;
 using Orion.WeatherApi.Models;
+using static Orion.WeatherApi.Models.ForecastModel;
 
 namespace Orion.WeatherApi.Services
 {
@@ -54,12 +55,11 @@ namespace Orion.WeatherApi.Services
                     break;
 
                 case "Forecast":
-                    queryString = "https://api.openweathermap.org/data/2.5/onecall?" + data + "&exclude=daily" + "&APPID=" + key;
+                    queryString = "https://api.openweathermap.org/data/2.5/onecall?" + data + "&exclude=hourly,current,alerts,minutely&appid=" + key;
                     break;
             }
 
-            
-
+        //https://api.openweathermap.org/data/2.5/onecall?lat=33.44&lon=-94.04&exclude=hourly,current,alerts,minutely&appid=631b2522cc672480a232e53d72c18a6c&
             switch (unit)
             {
                 case "Celsius":
@@ -121,6 +121,20 @@ namespace Orion.WeatherApi.Services
             ResponseWeather weather = JsonConvert.DeserializeObject<ResponseWeather>(results);
 
             return weather;
+        }
+
+        public async Task<ForecastResponse> GetForecastByLatLon(double lat, double lon, string unit)
+        {
+            string a = lat.ToString();
+            string b = lon.ToString();
+
+            string data = a + " " + b;
+
+            string results = await JsonResults(data, unit, "SearchByLatLon", "Forecast");
+
+            ForecastResponse forecast = JsonConvert.DeserializeObject<ForecastResponse>(results);
+
+            return forecast;
         }
     }
 }

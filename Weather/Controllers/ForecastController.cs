@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using Orion.WeatherApi.DTO;
+using Orion.WeatherApi.JWT;
 using Orion.WeatherApi.Models;
 using Orion.WeatherApi.Repository;
 using Orion.WeatherApi.Services;
@@ -13,6 +14,7 @@ using System.Web.Http;
 
 namespace Orion.WeatherApi.Controllers
 {
+    [CustomAuthenticationFilter]
     public class ForecastController : ApiController
     {
         private WeatherService weatherServices;
@@ -26,9 +28,9 @@ namespace Orion.WeatherApi.Controllers
             this.ipAddressService = new IpAddressService();
         }
 
-        [Route("api/Forecast/SearchByCity")]
+        [Route("api/Forecast/SearchByLatLon")]
         [HttpPost]
-        public async Task<IHttpActionResult> GetForecastByCityName([FromBody] SearchCity searchCity)
+        public async Task<IHttpActionResult> GetForecastByCityName([FromBody] SearchLatLon searchLatlon)
         {
             var request = Request.Headers.Authorization;
 
@@ -36,18 +38,19 @@ namespace Orion.WeatherApi.Controllers
             historyModel.Username = AuthenticateService.GetUsernameFromJWT(request.ToString());
             historyModel.IPAddress = ipAddressService.GetIp();
             historyModel.SearchRequest = "ByCity";
-            historyModel.Data = searchCity.cityName;
+            historyModel.Data = searchLatlon.Latitude.ToString()+","+searchLatlon.Longitude.ToString();
 
             try
             {
-                var weather = await weatherServices.GetWeatherByCityName(searchCity.cityName, searchCity.unit);
+                var forecast = await weatherServices.GetForecastByLatLon(searchLatlon.Latitude, searchLatlon.Longitude, searchLatlon.unit);
 
-                if (weather.id > 0)
+
+                if (forecast != null)
                 {
                     historyModel.TypeId = "Ok";
-                    historyModel.Response = JsonConvert.SerializeObject(weather).ToString();
+                    historyModel.Response = JsonConvert.SerializeObject(forecast).ToString();
 
-                    return Ok(weather);
+                    return Ok(forecast);
                 }
                 else
                 {
