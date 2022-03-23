@@ -3,7 +3,7 @@ namespace Orion.WeatherApi.DTO
 {
     public class WeatherView
     {
-        public string Title { get; set; } = " ";
+        public string Name { get; set; } = " ";
         public string Temperature { get; set; } = " ";
         public string Wind { get; set; } = " ";
         public string Humidity { get; set; } = " ";

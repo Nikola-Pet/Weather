@@ -10,7 +10,7 @@ namespace Orion.WeatherApi.Repository
 {
     public interface ICityCodeRepository
     {
-        List<CityCodeList> GetAllCityCode();
+        List<CityCode> GetAllCityCode();
         int GetWeatherCityId(int cityId);
     }
 }

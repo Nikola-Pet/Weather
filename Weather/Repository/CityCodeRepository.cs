@@ -11,9 +11,9 @@ namespace Orion.WeatherApi.Repository
 {
     public class CityCodeRepository : ICityCodeRepository
     {
-        public List<CityCodeList> GetAllCityCode() 
+        public List<CityCode> GetAllCityCode() 
         {
-            List<CityCodeList> cityCodes = new List<CityCodeList>();
+            List<CityCode> cityCodes = new List<CityCode>();
 
             SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString);
             con.Open();
@@ -27,7 +27,7 @@ namespace Orion.WeatherApi.Repository
 
             while (reader.Read())
             {
-                CityCodeList cityCode = new CityCodeList();
+                CityCode cityCode = new CityCode();
 
                 cityCode.CityId = int.Parse(reader["CityId"].ToString());
                 cityCode.Name = reader["Name"].ToString();

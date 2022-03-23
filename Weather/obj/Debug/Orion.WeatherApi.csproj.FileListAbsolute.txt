@@ -98,3 +98,12 @@ C:\Users\nikola.petrovic\source\repos\Weather\Weather\obj\Debug\Weather.pdb
 C:\Users\nikola.petrovic\source\repos\Weather\Weather\bin\System.Web.Cors.dll
 C:\Users\nikola.petrovic\source\repos\Weather\Weather\bin\System.Web.Http.Cors.dll
 C:\Users\nikola.petrovic\source\repos\Weather\Weather\bin\System.Web.Http.Cors.xml
+C:\Users\nikola.petrovic\source\repos\Weather\Weather\bin\AutoMapper.dll
+C:\Users\nikola.petrovic\source\repos\Weather\Weather\bin\Unity.Abstractions.dll
+C:\Users\nikola.petrovic\source\repos\Weather\Weather\bin\Unity.AspNet.WebApi.dll
+C:\Users\nikola.petrovic\source\repos\Weather\Weather\bin\Unity.Container.dll
+C:\Users\nikola.petrovic\source\repos\Weather\Weather\bin\AutoMapper.xml
+C:\Users\nikola.petrovic\source\repos\Weather\Weather\bin\Unity.Abstractions.pdb
+C:\Users\nikola.petrovic\source\repos\Weather\Weather\bin\Unity.AspNet.WebApi.pdb
+C:\Users\nikola.petrovic\source\repos\Weather\Weather\bin\Unity.AspNet.WebApi.xml
+C:\Users\nikola.petrovic\source\repos\Weather\Weather\bin\Unity.Container.pdb

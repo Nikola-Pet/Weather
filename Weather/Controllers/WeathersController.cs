@@ -8,19 +8,25 @@ using Orion.WeatherApi.DTO;
 using Newtonsoft.Json;
 using Orion.WeatherApi.JWT;
 using System;
+using AutoMapper;
+using System.Collections.Generic;
 
 namespace Orion.WeatherApi.Controllers
 {
     [CustomAuthenticationFilter]
     public class WeathersController : ApiController
     {
+        private readonly IMapper _mapper;
+
         private WeatherService weatherServices;
         private IHistoryRepository hIstoryRepository;
         private IpAddressService ipAddressService;
         private ICityCodeRepository cityCodeRepository;
 
-        public WeathersController()
+        public WeathersController(IMapper mapper)
         {
+            _mapper = mapper;
+
             this.weatherServices = new WeatherService();
             this.hIstoryRepository = new HistoryRepository();
             this.ipAddressService = new IpAddressService();
@@ -48,7 +54,7 @@ namespace Orion.WeatherApi.Controllers
                     historyModel.TypeId = "Ok";
                     historyModel.Response = JsonConvert.SerializeObject(weather).ToString();
 
-                    return Ok(weather);
+                    return Ok(_mapper.Map<WeatherView>(weather));
                 }
                 else
                 {
@@ -171,7 +177,7 @@ namespace Orion.WeatherApi.Controllers
         {
             var cityCodes =  cityCodeRepository.GetAllCityCode();
 
-            return  Ok(cityCodes);
+            return  Ok(_mapper.Map<IEnumerable<CityCodeList>>(cityCodes));
         }
     }
 }
