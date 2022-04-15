@@ -165,10 +165,19 @@
     <Compile Include="Controllers\UsersController.cs" />
     <Compile Include="Controllers\WeathersController.cs" />
     <Compile Include="DTO\CityCodeList.cs" />
+    <Compile Include="DTO\Enums\Response.cs" />
+    <Compile Include="DTO\Enums\Unit.cs" />
     <Compile Include="DTO\LogInRequest.cs" />
+    <Compile Include="DTO\ResponseWeather.cs" />
     <Compile Include="DTO\SearchCity.cs" />
     <Compile Include="DTO\SearchCityId.cs" />
     <Compile Include="DTO\SearchLatLon.cs" />
+    <Compile Include="DTO\WeatherDTO\Clouds.cs" />
+    <Compile Include="DTO\WeatherDTO\Coord.cs" />
+    <Compile Include="DTO\WeatherDTO\Main.cs" />
+    <Compile Include="DTO\WeatherDTO\Sys.cs" />
+    <Compile Include="DTO\WeatherDTO\Weather.cs" />
+    <Compile Include="DTO\WeatherDTO\Wind.cs" />
     <Compile Include="DTO\WeatherView.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -176,17 +185,13 @@
     <Compile Include="JWT\AuthenticationFailureResult.cs" />
     <Compile Include="JWT\CustomAuthenticationFilter.cs" />
     <Compile Include="Models\CityCode.cs" />
-    <Compile Include="Models\FiledLogin.cs" />
     <Compile Include="Models\HystoryModel.cs" />
     <Compile Include="Models\UserModel.cs" />
     <Compile Include="Models\ForecastModel.cs" />
-    <Compile Include="Models\WeatherModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repository\CityCodeRepository.cs" />
-    <Compile Include="Repository\FiledLoginRepository.cs" />
     <Compile Include="Repository\HistoryRepository.cs" />
     <Compile Include="Repository\ICityCodeRepository.cs" />
-    <Compile Include="Repository\IFiledLoginRepository.cs" />
     <Compile Include="Repository\IHistoryRepository.cs" />
     <Compile Include="Repository\IUserRepository.cs" />
     <Compile Include="Repository\UserRepository.cs" />

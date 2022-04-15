@@ -11,6 +11,7 @@ using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
+using static Orion.WeatherApi.DTO.Enums.Response;
 
 namespace Orion.WeatherApi.Controllers
 {
@@ -37,17 +38,17 @@ namespace Orion.WeatherApi.Controllers
             HystoryModel historyModel = new HystoryModel();
             historyModel.Username = AuthenticateService.GetUsernameFromJWT(request.ToString());
             historyModel.IPAddress = ipAddressService.GetIp();
-            historyModel.SearchRequest = "ByCity";
+            historyModel.Request = "ByCity";
             historyModel.Data = searchLatlon.Latitude.ToString()+","+searchLatlon.Longitude.ToString();
 
             try
             {
-                var forecast = await weatherServices.GetForecastByLatLon(searchLatlon.Latitude, searchLatlon.Longitude, searchLatlon.unit);
+                var forecast = await weatherServices.GetForecastByLatLon(searchLatlon.Latitude, searchLatlon.Longitude, searchLatlon.unit.ToString());
 
 
                 if (forecast != null)
                 {
-                    historyModel.TypeId = "Ok";
+                    historyModel.TypeId = ResponseType.Ok;
                     historyModel.Response = JsonConvert.SerializeObject(forecast).ToString();
 
                     return Ok(forecast);
@@ -55,7 +56,7 @@ namespace Orion.WeatherApi.Controllers
                 else
                 {
 
-                    historyModel.TypeId = "BadRequest";
+                    historyModel.TypeId = ResponseType.BadRequest;
                     historyModel.Response = null;
 
                     return BadRequest("City name is incorect");
@@ -63,10 +64,10 @@ namespace Orion.WeatherApi.Controllers
             }
             catch (InvalidOperationException)
             {
-                historyModel.TypeId = "BadRequest";
+                historyModel.TypeId = ResponseType.BadRequest;
                 historyModel.Response = null;
 
-                return BadRequest("Select unit");
+                return BadRequest("Select unit: C, F or K");
             }
             finally
             {

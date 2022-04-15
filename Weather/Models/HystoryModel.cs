@@ -1,6 +1,5 @@
-﻿
-
-using System;
+﻿using System;
+using static Orion.WeatherApi.DTO.Enums.Response;
 
 namespace Orion.WeatherApi.Models
 {
@@ -10,9 +9,9 @@ namespace Orion.WeatherApi.Models
         public string Username { get; set; }
         public string IPAddress { get; set; }
         public DateTime DateTime { get; set; } = DateTime.Now;
-        public string SearchRequest { get; set; }
+        public string Request { get; set; }
         public string Data { get; set; }
-        public string TypeId { get; set; }
+        public ResponseType TypeId { get; set; }
         public string Response { get; set; }
     }
 }

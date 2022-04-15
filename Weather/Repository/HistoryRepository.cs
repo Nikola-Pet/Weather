@@ -13,16 +13,20 @@ namespace Orion.WeatherApi.Repository
             SqlCommand cmd = new SqlCommand();
             cmd.Connection = con;
             cmd.CommandText = "INSERT INTO [dbo].[History](" +
-                    "[Username], [IPAddress], [DateTime], [SearchRequest], [Data], [TypeId], [Response])" +
+                    "[Username], [IPAddress], [DateTime], [Request], [Data], [TypeId], [Response])" +
                     "VALUES" +
-                    "(@Username, @IPAddress, @DateTime, @SearchRequest, @Data, @Type, @Response)";
+                    "(@Username, @IPAddress, @DateTime, @Request, @Data, @Type, @Response)";
 
+            if (history.Username == null)
+            {
+                history.Username = " ";
+            }
             cmd.Parameters.AddWithValue("@username", history.Username);
-            cmd.Parameters.AddWithValue("@SearchRequest", history.SearchRequest);
+            cmd.Parameters.AddWithValue("@Request", history.Request);
             cmd.Parameters.AddWithValue("@IPAddress", history.IPAddress);
             cmd.Parameters.AddWithValue("@DateTime", history.DateTime);
             cmd.Parameters.AddWithValue("@Data", history.Data);
-            cmd.Parameters.AddWithValue("@Type", GetTipeIdByName(history.TypeId));
+            cmd.Parameters.AddWithValue("@Type", GetTipeIdByName(history.TypeId.ToString()));
             if (history.Response == null)
             {
                 history.Response = " ";

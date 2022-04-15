@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Orion.WeatherApi.DTO;
+using Orion.WeatherApi.DTO.WeatherDTO;
 using Orion.WeatherApi.Models;
 using System;
 using System.Collections.Generic;
@@ -15,11 +16,11 @@ namespace Weather.App_Start
             CreateMap<CityCode, CityCodeList>();
             
             var weatherMap = CreateMap<ResponseWeather, WeatherView>();
-            weatherMap.ForMember(x => x.Temperature, y => y.MapFrom(z => z.main.temp));
-            weatherMap.ForMember(x => x.Wind, y => y.MapFrom(z => z.wind.speed));
-            weatherMap.ForMember(x => x.Humidity, y => y.MapFrom(z => z.main.humidity));
-            weatherMap.ForMember(x => x.Sunrise, y => y.MapFrom(z => DateConverter.ConvertDate(z.sys.sunrise)));
-            weatherMap.ForMember(x => x.Sunset, y => y.MapFrom(z => DateConverter.ConvertDate(z.sys.sunset)));
+            weatherMap.ForMember(x => x.Temperature, y => y.MapFrom(z => z.Main.Temp));
+            weatherMap.ForMember(x => x.Wind, y => y.MapFrom(z => z.Wind.Speed));
+            weatherMap.ForMember(x => x.Humidity, y => y.MapFrom(z => z.Main.Humidity));
+            weatherMap.ForMember(x => x.Sunrise, y => y.MapFrom(z => DateConverter.ConvertDate(z.Sys.Sunrise)));
+            weatherMap.ForMember(x => x.Sunset, y => y.MapFrom(z => DateConverter.ConvertDate(z.Sys.Sunset)));
         }
     }
 

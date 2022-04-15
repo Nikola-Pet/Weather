@@ -12,5 +12,6 @@ namespace Orion.WeatherApi.Repository
     {
         List<CityCode> GetAllCityCode();
         int GetWeatherCityId(int cityId);
+        bool ValidateCity(string city);
     }
 }

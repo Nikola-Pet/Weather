@@ -60,5 +60,29 @@ namespace Orion.WeatherApi.Repository
             return id;
         }
 
+        public bool ValidateCity(string city)
+        {
+            string name = null;
+
+            SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString);
+            con.Open();
+            SqlCommand cmd = new SqlCommand();
+            cmd.Connection = con;
+            cmd.CommandText = "SELECT [Name] FROM [dbo].[CityCode] WHERE Name = @City";
+            cmd.Parameters.AddWithValue("@City", city);
+
+            SqlDataReader reader = cmd.ExecuteReader();
+
+            while (reader.Read())
+            {
+               name = reader["Name"].ToString();
+            }
+            if (name == null )
+            {
+                return false;
+            }
+            return true;
+        }
+
     }
 }

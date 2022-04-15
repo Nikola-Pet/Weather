@@ -1,4 +1,6 @@
 ﻿
+using static Orion.WeatherApi.DTO.Enums.Unit;
+
 namespace Orion.WeatherApi.Controllers
 {
     public class SearchCityId

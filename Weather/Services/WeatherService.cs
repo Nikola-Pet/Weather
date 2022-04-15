@@ -3,6 +3,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using Orion.WeatherApi.Models;
 using static Orion.WeatherApi.Models.ForecastModel;
+using Orion.WeatherApi.DTO.WeatherDTO;
 
 namespace Orion.WeatherApi.Services
 {
@@ -59,16 +60,15 @@ namespace Orion.WeatherApi.Services
                     break;
             }
 
-        //https://api.openweathermap.org/data/2.5/onecall?lat=33.44&lon=-94.04&exclude=hourly,current,alerts,minutely&appid=631b2522cc672480a232e53d72c18a6c&
             switch (unit)
             {
-                case "Celsius":
+                case "C":
                     return queryString += "&units=metric";
 
-                case "Fahrenheit":
+                case "F":
                     return queryString += "&units=imperial";
 
-                case "Kelvin":
+                case "K":
                     return queryString += "";
             }
 
@@ -88,9 +88,6 @@ namespace Orion.WeatherApi.Services
 
         public async Task<ResponseWeather> GetWeatherByCityName(string city, string unit)
         {
-            
-            
-
             string results = await JsonResults(city, unit, "SearchByCity", "Weather");
 
             ResponseWeather weather = JsonConvert.DeserializeObject<ResponseWeather>(results);

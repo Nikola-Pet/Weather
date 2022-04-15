@@ -7,18 +7,22 @@ using Orion.WeatherApi.DTO;
 using System.Net.Http;
 using System.Net;
 using System;
+using Orion.WeatherApi.Models;
+using static Orion.WeatherApi.DTO.Enums.Response;
 
 namespace Orion.WeatherApi.Controllers
 {
     public class UsersController : ApiController
     {
         private IUserRepository userRepository;
-        private IFiledLoginRepository filedLoginRepository;
+        private IHistoryRepository historyRepository;
+        private IpAddressService ipAddressService;
 
         public UsersController()
         {
             this.userRepository = new UserRepository();
-            this.filedLoginRepository = new FiledLoginRepository();
+            this.historyRepository = new HistoryRepository();
+            this.ipAddressService = new IpAddressService(); 
         }
 
 
@@ -30,7 +34,16 @@ namespace Orion.WeatherApi.Controllers
 
             if (user.UserId == 0)
             {
-                filedLoginRepository.AddFiledLogin(logInRequest.Username, logInRequest.Password);
+                HystoryModel history = new HystoryModel();
+                //history.Username = null;
+                history.IPAddress = ipAddressService.GetIp();
+                history.Request = "LogIn";
+                history.Data = logInRequest.Username + " " + logInRequest.Password;
+                history.TypeId = ResponseType.Unauthorized;
+
+                historyRepository.AddHistory(history);
+
+
                 return BadRequest("User name or password is invalid");
             }
 
